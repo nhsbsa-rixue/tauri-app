@@ -1,14 +1,24 @@
 <script lang="ts">
   import { invoke } from "@tauri-apps/api/core";
+  import { onMount } from "svelte";
 
   let name = $state("");
   let greetMsg = $state("");
+  let types  = $state<Array<any>>([]);
+  let dishes = $state<Array<any>>([]);
+
+  onMount(async () => {
+    types = await invoke("list_types");
+
+    dishes = await invoke("list_dishes");
+  });
+
 
   async function greet(event: Event) {
     event.preventDefault();
     // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
     greetMsg = await invoke("greet", { name });
-    await invoke("create_post", { title: name, content: greetMsg });
+
   }
 </script>
 
@@ -33,6 +43,28 @@
     <button type="submit">Greet</button>
   </form>
   <p>{greetMsg}</p>
+
+  <h2>Dishes</h2>
+  {#if dishes.length === 0}
+    <p>Loading dishes...</p>
+  {:else}
+    <ul>
+      {#each dishes as dish}
+        <li>{dish.name_en}</li>
+      {/each}
+    </ul>
+  {/if}
+
+  <h2>Types</h2>
+  {#if types.length === 0}
+    <p>Loading types...</p>
+  {:else}
+    <ul>
+      {#each types as type}
+        <li>{type.name_en}</li>
+      {/each}
+    </ul>
+  {/if}
 </main>
 
 <style>

@@ -1,8 +1,8 @@
 use diesel::prelude::*;
 use diesel_migrations::{embed_migrations, EmbeddedMigrations, MigrationHarness};
 
-use super::models::{NewPost, Post};
-use crate::schema::posts;
+use super::models::{NewPost, Post, Dishes, DishTypes};
+use crate::schema::{dish_types, posts, dishes};
 
 pub const MIGRATIONS: EmbeddedMigrations = embed_migrations!();
 
@@ -45,3 +45,23 @@ pub fn create_post(title: &str, content: &str) -> String {
 
     serde_json::to_string(&post_created).expect("Failed to serialize post")
 }
+
+#[tauri::command]
+pub fn list_dishes() -> Vec<Dishes> {
+    print!("Listing dishes... ");
+    let conn = &mut establish_connection();
+
+    dishes::table.load::<Dishes>(conn)
+        .expect("Error loading dishes")
+}
+
+#[tauri::command]
+pub fn list_types() -> Vec<DishTypes> {
+    print!("Listing types... ");
+    let conn = &mut establish_connection();
+
+    dish_types::table.load::<DishTypes>(conn)
+        .expect("Error loading types")
+}
+
+
