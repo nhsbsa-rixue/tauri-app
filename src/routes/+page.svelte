@@ -1,11 +1,21 @@
 <script lang="ts">
   import { invoke } from "@tauri-apps/api/core";
   import { onMount } from "svelte";
+  import Dishes from "../lib/dishes.svelte";
 
-  let name = $state("");
-  let greetMsg = $state("");
   let types  = $state<Array<any>>([]);
-  let dishes = $state<Array<any>>([]);
+  let dishes = $state<Array<any>>([
+    { id: 1, name_en: "Margherita", img: "🍕" },
+    { id: 2, name_en: "Cheeseburger", img: "🍔" },
+    { id: 3, name_en: "Fried Chicken", img: "🍗" },
+    { id: 4, name_en: "Sushi", img: "🍣" },
+    { id: 5, name_en: "Caesar Salad", img: "🥗" },
+    { id: 6, name_en: "Pepperoni Pizza", img: "🍕" },
+    { id: 7, name_en: "French Fries", img: "🍟" },
+    { id: 8, name_en: "Pasta", img: "🍝" },
+    { id: 9, name_en: "Taco", img: "🌮" },
+    { id: 10, name_en: "Chicken Salad", img: "🥗" }
+  ]);
 
   onMount(async () => {
     types = await invoke("list_types");
@@ -13,69 +23,19 @@
     dishes = await invoke("list_dishes");
   });
 
+  </script>
 
-  async function greet(event: Event) {
-    event.preventDefault();
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    greetMsg = await invoke("greet", { name });
-
-  }
-</script>
 
 <main class="container">
-  <h1>Welcome to Tauri + Svelte</h1>
-
-  <div class="row">
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo vite" alt="Vite Logo" />
-    </a>
-    <a href="https://tauri.app" target="_blank">
-      <img src="/tauri.svg" class="logo tauri" alt="Tauri Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank">
-      <img src="/svelte.svg" class="logo svelte-kit" alt="SvelteKit Logo" />
-    </a>
-  </div>
-  <p>Click on the Tauri, Vite, and SvelteKit logos to learn more.</p>
-
-  <form class="row" onsubmit={greet}>
-    <input id="greet-input" placeholder="Enter a name..." bind:value={name} />
-    <button type="submit">Greet</button>
-  </form>
-  <p>{greetMsg}</p>
 
   <h2>Dishes</h2>
-  {#if dishes.length === 0}
-    <p>Loading dishes...</p>
-  {:else}
-    <ul>
-      {#each dishes as dish}
-        <li>{dish.name_en}</li>
-      {/each}
-    </ul>
-  {/if}
 
-  <h2>Types</h2>
-  {#if types.length === 0}
-    <p>Loading types...</p>
-  {:else}
-    <ul>
-      {#each types as type}
-        <li>{type.name_en}</li>
-      {/each}
-    </ul>
-  {/if}
+  <Dishes dishes={dishes} ></Dishes>
+
+
 </main>
 
 <style>
-  .logo.vite:hover {
-    filter: drop-shadow(0 0 2em #747bff);
-  }
-
-  .logo.svelte-kit:hover {
-    filter: drop-shadow(0 0 2em #ff3e00);
-  }
-
   :root {
     font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
     font-size: 16px;
