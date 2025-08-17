@@ -1,22 +1,19 @@
 <script lang="ts">
-   export let dishes = [
-    { id: 1, name_en: "Margherita", img: "🍕" },
-    { id: 2, name_en: "Cheeseburger", img: "🍔" },
-    { id: 3, name_en: "Fried Chicken", img: "🍗" },
-    { id: 4, name_en: "Sushi", img: "🍣" },
-    { id: 5, name_en: "Caesar Salad", img: "🥗" },
-    { id: 6, name_en: "Pepperoni Pizza", img: "🍕" },
-    { id: 7, name_en: "French Fries", img: "🍟" },
-    { id: 8, name_en: "Pasta", img: "🍝" },
-    { id: 9, name_en: "Taco", img: "🌮" },
-    { id: 10, name_en: "Chicken Salad", img: "🥗" }
-  ];
+  import { Pagination } from '@skeletonlabs/skeleton-svelte';
 
-  let selectedItems: any[] = [];
+  const { dishes = [] } = $props<{ dishes: Array<Dishes> }>();
 
-  function selectDish(dish: any) {
+  let selectedItems: Dishes[] = [];
+
+
+
+  function selectDish(dish: Dishes) {
     selectedItems = [...selectedItems, dish];
   }
+
+  let page = $state(1);
+  const pageSize = 8;
+  const dishOnPage = $derived((s: Dishes[]) => s.slice((page - 1) * pageSize, page * pageSize));
 </script>
 
 <div class="container">
@@ -37,9 +34,8 @@
 
   <!-- Dish Grid -->
   <div class="grid">
-    {#each dishes as dish}
+    {#each  dishOnPage(dishes) as dish}
       <div class="tile"
-    on:click={() => selectDish(dish)}
   >
     <div style="font-size:2rem">{dish.img}</div>
     <div>{dish.name_en}</div>
@@ -47,9 +43,11 @@
     {/each}
   </div>
 
+  <Pagination data={dishes} {page} pageSize={pageSize} onPageChange={(e) => (page = e.page)}
+ alternative/>
 
 </div>
-
+<!-- 
 <style>
   .container {
     display: flex;
@@ -85,4 +83,4 @@
   .selected h2 {
     margin-bottom: 1rem;
   }
-</style>
+</style> -->
