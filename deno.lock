@@ -1,6 +1,7 @@
 {
   "version": "5",
   "specifiers": {
+    "npm:@lucide/svelte@0.540": "0.540.0_svelte@5.34.7__acorn@8.15.0",
     "npm:@skeletonlabs/skeleton-svelte@^1.4.0": "1.4.0_svelte@5.34.7__acorn@8.15.0",
     "npm:@skeletonlabs/skeleton@^3.1.8": "3.1.8_tailwindcss@4.1.12",
     "npm:@sveltejs/adapter-static@^3.0.6": "3.0.8_@sveltejs+kit@2.22.0__@sveltejs+vite-plugin-svelte@5.1.0___svelte@5.34.7____acorn@8.15.0___vite@6.3.5____picomatch@4.0.2__svelte@5.34.7___acorn@8.15.0__vite@6.3.5___picomatch@4.0.2__acorn@8.15.0_@sveltejs+vite-plugin-svelte@5.1.0__svelte@5.34.7___acorn@8.15.0__vite@6.3.5___picomatch@4.0.2_svelte@5.34.7__acorn@8.15.0_vite@6.3.5__picomatch@4.0.2",
@@ -219,6 +220,12 @@
       "dependencies": [
         "@jridgewell/resolve-uri",
         "@jridgewell/sourcemap-codec"
+      ]
+    },
+    "@lucide/svelte@0.540.0_svelte@5.34.7__acorn@8.15.0": {
+      "integrity": "sha512-tukbz1g9SFRPx5t7LANLhHgoy/Rkd7LQjwMaBavQgtw1FcYeAc2r0oYjx/pATY1ymU92ROkkofU9WKkwmxIppg==",
+      "dependencies": [
+        "svelte"
       ]
     },
     "@napi-rs/wasm-runtime@0.2.12": {
@@ -1309,6 +1316,7 @@
   "workspace": {
     "packageJson": {
       "dependencies": [
+        "npm:@lucide/svelte@0.540",
         "npm:@skeletonlabs/skeleton-svelte@^1.4.0",
         "npm:@skeletonlabs/skeleton@^3.1.8",
         "npm:@sveltejs/adapter-static@^3.0.6",

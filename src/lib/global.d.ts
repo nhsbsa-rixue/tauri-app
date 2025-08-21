@@ -12,3 +12,10 @@ interface Dishes {
     notes: string | null;
     img: string;
 }
+
+interface Types {
+    id: number;
+    name_en: string;
+    name_cn: string;
+    img: string;
+}
