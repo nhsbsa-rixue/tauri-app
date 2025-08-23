@@ -1,28 +1,26 @@
 <script lang="ts">
   import { invoke } from "@tauri-apps/api/core";
   import { onMount } from "svelte";
-
   import { Switch } from "@skeletonlabs/skeleton-svelte";
-  import IconPin from "@lucide/svelte/icons/pin";
-
   import { Pagination } from "@skeletonlabs/skeleton-svelte";
+  import { addItem } from "../stores";
 
-  let types = $state<Array<Types>>([]);
-  let dishes = $state<Array<Dishes>>([]);
-  let dishSelected = $state<Array<Dishes>>([]);
+
+  let types = $state<Types[]>([]);
+  let dishes = $state<Dishes[]>([]);
 
   let filter: String = $state("");
 
-  const dishOnFilter =  $derived((t: String) => {
-    if (t) {
-      return dishes.filter((dish: Dishes) => dish.menu_type === t);
+  const dishOnFilter =  $derived((type: String) => {
+    if (type) {
+      const dishesAfterFilter = dishes.filter((dish: Dishes) => dish.menu_type === type);
+      return dishesAfterFilter;
     }
     return dishes;
   });
 
   onMount(async () => {
     types = await invoke("list_types");
-
     dishes = await invoke("list_dishes");
 
   });
@@ -34,7 +32,8 @@
     return s.slice((page - 1) * pageSize, page * pageSize);
   });
 
-  function clickOnFilter(type: String) {
+  const clickOnFilter = (type: String) => {
+    page = 1;
     if (filter === type) {
       filter = "";
     } else {
@@ -42,21 +41,30 @@
     }
   }
 
+
+
+
+
 </script>
 
 <div class="container">
-  <!-- Selected Items -->
-  <div class="selected">
-    <h2>Selected Items</h2>
-    {#if dishSelected.length === 0}
-      <p>No items selected</p>
-    {:else}
-      <ul>
-        {#each dishSelected as item, i}
-          <li>{i + 1}. {item.name_en}</li>
-        {/each}
-      </ul>
-    {/if}
+
+    <div class="switch-container">
+    {#each types as type}
+      <Switch 
+        name={`icons-${type.id}`}
+        checked={filter === type.name_en}
+        onCheckedChange={() => clickOnFilter(type.name_en)}
+        compact
+      >
+        {#snippet inactiveChild()}
+          <span>{type.name_cn}</span>
+        {/snippet}
+        {#snippet activeChild()}
+          <span>{type.name_cn}</span>
+        {/snippet}
+      </Switch>
+    {/each}
   </div>
 
   <!-- Dish Grid -->
@@ -64,7 +72,7 @@
     {#each dishOnPage(dishOnFilter(filter)) as dish}
       <div class="tile">
         <div style="font-size:2rem">{dish.img}</div>
-        <div>{dish.name_en}</div>
+        <button type="button" class="btn preset-filled-primary-500" onclick={() => addItem(dish)} >{dish.name_en}</button>
       </div>
     {/each}
   </div>
@@ -79,24 +87,5 @@
 
   <hr />
 
-  <div class="switch-container">
-    {#each types as type}
-      <Switch 
-        name={`icons-${type.id}`}
-        checked={filter === type.name_en}
-        onCheckedChange={() => clickOnFilter(type.name_en)}
-        compact
-      >
-        {#snippet inactiveChild()}
-          <span>{type.name_en}</span>
-          <IconPin size="14" style="opacity:0.3;" />
-        {/snippet}
-        {#snippet activeChild()}
-          <span>{type.name_en}</span>
-          <IconPin size="14" color="var(--your-accent-color, #f59e42)" />
-        {/snippet}
-      </Switch>
-      <span></span>
-    {/each}
-  </div>
+
 </div>

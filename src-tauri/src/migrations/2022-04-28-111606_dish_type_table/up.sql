@@ -26,7 +26,6 @@ INSERT INTO dish_types (name_en, name_cn) VALUES
 ('Chop Suey', '什水'),
 ('Deep Fried', '炸'),
 ('English', '英餐'),
-('C Mushroom GP', '冬菇 士召'),
 ('Extra', '附加'),
 ('Lunch', '午餐'),
 ('Sweet & Drink', '甜品 饮料'),

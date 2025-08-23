@@ -15,6 +15,7 @@
     "npm:svelte@5": "5.34.7_acorn@8.15.0",
     "npm:tailwindcss@^4.1.12": "4.1.12",
     "npm:typescript@~5.6.2": "5.6.3",
+    "npm:uuid@^11.1.0": "11.1.0",
     "npm:vite@^6.0.3": "6.3.5_picomatch@4.0.2"
   },
   "npm": {
@@ -1282,6 +1283,10 @@
       "integrity": "sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw==",
       "bin": true
     },
+    "uuid@11.1.0": {
+      "integrity": "sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==",
+      "bin": true
+    },
     "vite@6.3.5_picomatch@4.0.2": {
       "integrity": "sha512-cZn6NDFE7wdTpINgs++ZJ4N49W2vRp8LCKrn3Ob1kYNtOo21vfDoaV5GzBfLU4MovSAB8uNRm4jgzVQZ+mBzPQ==",
       "dependencies": [
@@ -1330,6 +1335,7 @@
         "npm:svelte@5",
         "npm:tailwindcss@^4.1.12",
         "npm:typescript@~5.6.2",
+        "npm:uuid@^11.1.0",
         "npm:vite@^6.0.3"
       ]
     }
