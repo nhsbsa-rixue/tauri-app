@@ -3,30 +3,22 @@
   import Dishes from "../lib/dishes.svelte";
   import Items from "../lib/items.svelte";
 
-  onMount(async () => {
-  });
+  onMount(async () => {});
+</script>
 
-  </script>
-
-
-
-
-  <div class="grid h-screen grid-rows-[auto_1fr_auto]">
+<div class="flex flex-col min-h-screen w-full h-full">
   <!-- Header -->
   <header class="bg-red-500 p-4">(header)</header>
-  <!-- Grid Column -->
-	<div class="grid grid-cols-1 md:grid-cols-[4fr_auto_1fr]">
-		<!-- Sidebar (Left) -->
+  <!-- Main Content -->
+  <main class="grid grid-cols-1 md:grid-cols-[2fr_4fr_1fr] flex-1">
+    <!-- Sidebar (Left) -->
     <Items></Items>
-		<!-- Main -->
-		<main class="bg-green-500 p-4 space-y-4">
+    <div class="bg-green-500 p-4 space-y-4">
       <Dishes></Dishes>
-
-		</main>
-		<!-- Sidebar (Right) -->
-		<aside class="bg-yellow-500 p-4">(sidebar)</aside>
-	</div>
+    </div>
+    <!-- Sidebar (Right) -->
+    <aside class="bg-yellow-500 p-4">(sidebar)</aside>
+  </main>
   <!-- Footer -->
-  <footer class="bg-blue-500 p-4">(footer)</footer>
+  <footer class="bg-blue-500 p-4 mt-auto">(footer)</footer>
 </div>
-
