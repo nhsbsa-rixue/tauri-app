@@ -1,7 +1,8 @@
 <script lang="ts">
   import { invoke } from "@tauri-apps/api/core";
   import { onMount } from "svelte";
-  import { Switch } from "@skeletonlabs/skeleton-svelte";
+  import { Check } from '@lucide/svelte';
+
   import { Pagination } from "@skeletonlabs/skeleton-svelte";
   import { addItem } from "../stores";
 
@@ -42,9 +43,25 @@
 </script>
 
 <div class="w-full h-full">
-  <div class="grid grid-rows-2 grid-flow-col gap-2 mb-4 justify-items-center">
+
+  <div class="grid grid-rows-3 grid-flow-col gap-2 mb-4 justify-items-center">
     {#each types as type}
-      <Switch
+
+  <button 
+  onclick={() => clickOnFilter(type.name_en)}
+  type="button" 
+  class="chip preset-filled">
+    <span>{type.name_cn}</span>
+      <span style="display: inline-block; width: 20px; text-align: center;">
+
+    {#if filter === type.name_en}
+      <Check size="16" />
+    {/if}    
+      </span>
+  </button>
+
+
+      <!-- <Switch
         name={`icons-${type.id}`}
         checked={filter === type.name_en}
         onCheckedChange={() => clickOnFilter(type.name_en)}
@@ -56,7 +73,7 @@
         {#snippet activeChild()}
           <span>{type.name_cn}</span>
         {/snippet}
-      </Switch>
+      </Switch> -->
     {/each}
   </div>
 
