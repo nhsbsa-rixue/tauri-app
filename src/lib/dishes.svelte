@@ -1,7 +1,7 @@
 <script lang="ts">
   import { invoke } from "@tauri-apps/api/core";
   import { onMount } from "svelte";
-  import { Check } from '@lucide/svelte';
+  import { Check } from "@lucide/svelte";
 
   import { Pagination } from "@skeletonlabs/skeleton-svelte";
   import { addItem } from "../stores";
@@ -43,23 +43,22 @@
 </script>
 
 <div class="w-full h-full">
-
-  <div class="grid grid-rows-3 grid-flow-col gap-2 mb-4 justify-items-center">
+  <div class="flex flex-wrap gap-2 mb-4 justify-center">
     {#each types as type}
-
-  <button 
-  onclick={() => clickOnFilter(type.name_en)}
-  type="button" 
-  class="chip preset-filled">
-    <span>{type.name_cn}</span>
-      <span style="display: inline-block; width: 20px; text-align: center;">
-
-    {#if filter === type.name_en}
-      <Check size="16" />
-    {/if}    
-      </span>
-  </button>
-
+      <button
+        onclick={() => clickOnFilter(type.name_en)}
+        type="button"
+        class="chip {filter === type.name_en
+          ? 'preset-filled-primary-500'
+          : 'preset-filled'} transition-all duration-150"
+      >
+        <span>{type.name_cn}</span>
+        <span style="display: inline-block; width: 20px; text-align: center;">
+          {#if filter === type.name_en}
+            <Check size="16" />
+          {/if}
+        </span>
+      </button>
 
       <!-- <Switch
         name={`icons-${type.id}`}
@@ -78,18 +77,18 @@
   </div>
 
   <!-- Dish Grid -->
-  <div class="grid grid-cols-2 md:grid-cols-3 gap-1">
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
     {#each dishOnPage(dishOnFilter(filter)) as dish}
-      <div class="tile flex flex-col items-center justify-center w-full h-full">
-        <div style="font-size:2rem">{dish.img}</div>
-        <button
-          type="button"
-          class="card preset-filled-primary-500 w-full h-[120px]"
-          onclick={() => addItem(dish)}
+      <button
+        type="button"
+        class="card preset-filled-surface-200-800 hover:preset-filled-primary-500 w-full p-3 flex flex-col items-center justify-center gap-2 rounded-xl shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-150 cursor-pointer h-[140px]"
+        onclick={() => addItem(dish)}
+      >
+        <span class="text-3xl">{dish.img}</span>
+        <span class="text-sm font-medium text-center leading-tight"
+          >{dish.name_en}</span
         >
-          {dish.name_en}
-        </button>
-      </div>
+      </button>
     {/each}
   </div>
 
