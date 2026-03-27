@@ -3,9 +3,6 @@
   import { UtensilsCrossed } from "@lucide/svelte";
   import Dishes from "../lib/dishes.svelte";
   import Items from "../lib/items.svelte";
-  import { items } from "../stores";
-
-  const total = $derived($items.reduce((sum, item) => sum + item.price, 0));
 
   onMount(async () => {});
 </script>
@@ -28,22 +25,7 @@
       <Dishes></Dishes>
     </div>
     <!-- Sidebar (Right) -->
-    <aside class="p-4 preset-filled-surface-100-900 space-y-4">
-      <h2 class="font-semibold text-sm uppercase tracking-wide opacity-60">
-        Summary
-      </h2>
-      <div class="space-y-2 text-sm">
-        <div class="flex justify-between">
-          <span class="opacity-70">Items</span>
-          <span class="font-medium">{$items.length}</span>
-        </div>
-        <hr class="hr" />
-        <div class="flex justify-between font-bold text-lg">
-          <span>Total</span>
-          <span>${total.toFixed(2)}</span>
-        </div>
-      </div>
-    </aside>
+    <aside class="p-4 preset-filled-surface-100-900"></aside>
   </main>
   <!-- Footer -->
   <footer
