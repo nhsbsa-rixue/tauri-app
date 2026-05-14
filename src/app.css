@@ -1,7 +1,354 @@
 @import 'tailwindcss';
 
-@import '@skeletonlabs/skeleton';
-@import '@skeletonlabs/skeleton/optional/presets';
-@import '@skeletonlabs/skeleton/themes/cerberus';
+:root {
+    --color-primary: #0066cc;
+    --color-primary-focus: #0071e3;
+    --color-primary-on-dark: #2997ff;
+    --color-ink: #1d1d1f;
+    --color-body: #1d1d1f;
+    --color-body-on-dark: #ffffff;
+    --color-body-muted: #cccccc;
+    --color-ink-muted-80: #333333;
+    --color-ink-muted-48: #7a7a7a;
+    --color-divider-soft: #f0f0f0;
+    --color-hairline: #e0e0e0;
+    --color-canvas: #ffffff;
+    --color-canvas-parchment: #f5f5f7;
+    --color-surface-pearl: #fafafc;
+    --color-surface-tile-1: #272729;
+    --color-surface-tile-2: #2a2a2c;
+    --color-surface-tile-3: #252527;
+    --color-surface-black: #000000;
+    --color-surface-chip-translucent: #d2d2d7;
+    --color-on-primary: #ffffff;
+    --color-on-dark: #ffffff;
 
-@source '../node_modules/@skeletonlabs/skeleton-svelte/dist';
+    --rounded-none: 0px;
+    --rounded-xs: 5px;
+    --rounded-sm: 8px;
+    --rounded-md: 11px;
+    --rounded-lg: 18px;
+    --rounded-pill: 9999px;
+    --rounded-full: 9999px;
+
+    --spacing-xxs: 4px;
+    --spacing-xs: 8px;
+    --spacing-sm: 12px;
+    --spacing-md: 17px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-xxl: 48px;
+    --spacing-section: 80px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+}
+
+body {
+    color: var(--color-body);
+    background: var(--color-canvas);
+    font-family: "SF Pro Text", system-ui, -apple-system, sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.47;
+    letter-spacing: -0.374px;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+.typography-nav-link {
+    font-family: "SF Pro Text", system-ui, -apple-system, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.12px;
+}
+
+.typography-tagline {
+    font-family: "SF Pro Display", system-ui, -apple-system, sans-serif;
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.19;
+    letter-spacing: 0.231px;
+}
+
+.typography-body {
+    font-family: "SF Pro Text", system-ui, -apple-system, sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.47;
+    letter-spacing: -0.374px;
+}
+
+.typography-body-strong {
+    font-family: "SF Pro Text", system-ui, -apple-system, sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.24;
+    letter-spacing: -0.374px;
+}
+
+.typography-caption {
+    font-family: "SF Pro Text", system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.43;
+    letter-spacing: -0.224px;
+}
+
+.typography-button-utility {
+    font-family: "SF Pro Text", system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.29;
+    letter-spacing: -0.224px;
+}
+
+.typography-fine-print {
+    font-family: "SF Pro Text", system-ui, -apple-system, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.12px;
+}
+
+.app-shell {
+    min-height: 100vh;
+    width: 100%;
+    background: var(--color-canvas);
+    color: var(--color-body);
+    display: flex;
+    flex-direction: column;
+}
+
+.global-nav {
+    background: var(--color-surface-black);
+    color: var(--color-on-dark);
+    min-height: 44px;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.global-nav .brand {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.app-main-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    flex: 1;
+}
+
+@media (min-width: 1024px) {
+    .app-main-grid {
+        grid-template-columns: minmax(300px, 2fr) minmax(620px, 4fr) minmax(220px, 1fr);
+    }
+}
+
+.panel-parchment {
+    background: var(--color-canvas-parchment);
+    border-right: 1px solid var(--color-hairline);
+}
+
+.panel-main {
+    background: var(--color-canvas);
+    padding: var(--spacing-lg);
+    overflow-y: auto;
+}
+
+.panel-right {
+    background: var(--color-canvas-parchment);
+    border-left: 1px solid var(--color-hairline);
+}
+
+.app-footer {
+    background: var(--color-canvas-parchment);
+    color: var(--color-ink-muted-80);
+    border-top: 1px solid var(--color-hairline);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    text-align: center;
+}
+
+.btn-primary-pill {
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    border: 1px solid transparent;
+    border-radius: var(--rounded-pill);
+    padding: 11px 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    cursor: pointer;
+    transition: transform 150ms ease;
+}
+
+.btn-primary-pill:focus-visible {
+    outline: 2px solid var(--color-primary-focus);
+    outline-offset: 2px;
+}
+
+.btn-secondary-pill {
+    background: var(--color-canvas);
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+    border-radius: var(--rounded-pill);
+    padding: 11px 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 150ms ease;
+}
+
+.btn-dark-utility {
+    background: var(--color-ink);
+    color: var(--color-on-dark);
+    border: 1px solid transparent;
+    border-radius: var(--rounded-sm);
+    padding: 8px 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: transform 150ms ease;
+}
+
+.btn-chip {
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--rounded-pill);
+    padding: 12px 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 150ms ease, border-color 150ms ease;
+}
+
+.btn-chip.is-selected {
+    border: 2px solid var(--color-primary-focus);
+}
+
+.utility-card {
+    background: var(--color-canvas);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--rounded-lg);
+    padding: var(--spacing-lg);
+}
+
+.card-dish {
+    width: 100%;
+    min-height: 156px;
+    background: var(--color-canvas);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--rounded-lg);
+    padding: var(--spacing-lg);
+    color: var(--color-ink);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    cursor: pointer;
+    transition: transform 150ms ease, border-color 150ms ease;
+}
+
+.card-dish:hover,
+.btn-chip:hover,
+.btn-primary-pill:hover,
+.btn-secondary-pill:hover,
+.btn-dark-utility:hover,
+.page-btn:hover {
+    border-color: var(--color-primary);
+}
+
+.card-dish:active,
+.btn-chip:active,
+.btn-primary-pill:active,
+.btn-secondary-pill:active,
+.btn-dark-utility:active,
+.page-btn:active {
+    transform: scale(0.95);
+}
+
+.page-btn {
+    background: var(--color-canvas);
+    border: 1px solid var(--color-hairline);
+    color: var(--color-primary);
+    border-radius: var(--rounded-pill);
+    min-width: 44px;
+    height: 44px;
+    padding: 0 var(--spacing-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 150ms ease, border-color 150ms ease;
+}
+
+.page-btn.is-current {
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    border-color: var(--color-primary);
+}
+
+.page-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    border-color: var(--color-hairline);
+    color: var(--color-ink-muted-48);
+}
+
+.link-primary {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+.list-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-sm) var(--spacing-xs);
+    border-bottom: 1px solid var(--color-hairline);
+}
+
+.icon-action {
+    background: transparent;
+    border: none;
+    color: var(--color-ink-muted-48);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    min-height: 32px;
+    transition: transform 150ms ease, color 150ms ease;
+}
+
+.icon-action:hover {
+    color: var(--color-primary);
+}
+
+.icon-action:active {
+    transform: scale(0.95);
+}

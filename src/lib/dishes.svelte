@@ -1,38 +1,45 @@
 <script lang="ts">
   import { invoke } from "@tauri-apps/api/core";
   import { onMount } from "svelte";
-  import { Check } from "@lucide/svelte";
-
-  import { Pagination } from "@skeletonlabs/skeleton-svelte";
   import { addItem } from "../stores";
 
   let types = $state<Types[]>([]);
   let dishes = $state<Dishes[]>([]);
 
-  let filter: String = $state("");
+  let filter = $state("");
+  let page = $state(1);
+  const pageSize = 15;
 
-  const dishOnFilter = $derived((type: String) => {
-    if (type) {
-      const dishesAfterFilter = dishes.filter(
-        (dish: Dishes) => dish.menu_type === type,
-      );
-      return dishesAfterFilter;
-    }
-    return dishes;
-  });
+  const filteredDishes = $derived(
+    filter
+      ? dishes.filter((dish: Dishes) => dish.menu_type === filter)
+      : dishes,
+  );
+
+  const totalPages = $derived(
+    Math.max(1, Math.ceil(filteredDishes.length / pageSize)),
+  );
+
+  const pagedDishes = $derived(
+    filteredDishes.slice((page - 1) * pageSize, page * pageSize),
+  );
+
+  const pageNumbers = $derived(
+    Array.from({ length: totalPages }, (_, i) => i + 1),
+  );
 
   onMount(async () => {
     types = await invoke("list_types");
     dishes = await invoke("list_dishes");
   });
 
-  let page = $state(1);
-  const pageSize = 15;
-  const dishOnPage = $derived((s: Dishes[]) => {
-    return s.slice((page - 1) * pageSize, page * pageSize);
+  $effect(() => {
+    if (page > totalPages) {
+      page = totalPages;
+    }
   });
 
-  const clickOnFilter = (type: String) => {
+  const clickOnFilter = (type: string) => {
     page = 1;
     if (filter === type) {
       filter = "";
@@ -40,64 +47,73 @@
       filter = type;
     }
   };
+
+  const goToPage = (target: number) => {
+    if (target >= 1 && target <= totalPages) {
+      page = target;
+    }
+  };
 </script>
 
 <div class="w-full h-full">
-  <div class="flex flex-wrap gap-2 mb-4 justify-center">
+  <div class="flex flex-wrap gap-2 mb-6 justify-center">
     {#each types as type}
       <button
         onclick={() => clickOnFilter(type.name_en)}
         type="button"
-        class="chip {filter === type.name_en
-          ? 'preset-filled-primary-500'
-          : 'preset-filled'} transition-all duration-150"
+        class="btn-chip typography-caption {filter === type.name_en
+          ? 'is-selected'
+          : ''}"
       >
         <span>{type.name_cn}</span>
-        <span style="display: inline-block; width: 20px; text-align: center;">
-          {#if filter === type.name_en}
-            <Check size="16" />
-          {/if}
-        </span>
       </button>
-
-      <!-- <Switch
-        name={`icons-${type.id}`}
-        checked={filter === type.name_en}
-        onCheckedChange={() => clickOnFilter(type.name_en)}
-        compact
-      >
-        {#snippet inactiveChild()}
-          <span>{type.name_cn}</span>
-        {/snippet}
-        {#snippet activeChild()}
-          <span>{type.name_cn}</span>
-        {/snippet}
-      </Switch> -->
     {/each}
   </div>
 
-  <!-- Dish Grid -->
-  <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-    {#each dishOnPage(dishOnFilter(filter)) as dish}
-      <button
-        type="button"
-        class="card preset-filled-surface-200-800 hover:preset-filled-primary-500 w-full p-3 flex flex-col items-center justify-center gap-2 rounded-xl shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-150 cursor-pointer h-[140px]"
-        onclick={() => addItem(dish)}
-      >
-        <span class="text-3xl">{dish.img}</span>
-        <span class="text-sm font-medium text-center leading-tight"
+  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+    {#each pagedDishes as dish}
+      <button type="button" class="card-dish" onclick={() => addItem(dish)}>
+        <span class="text-4xl">{dish.img}</span>
+        <span class="typography-body-strong text-center leading-tight"
           >{dish.name_en}</span
+        >
+        <span
+          class="typography-caption"
+          style="color: var(--color-ink-muted-80);"
+          >${dish.price.toFixed(2)}</span
         >
       </button>
     {/each}
   </div>
 
-  <Pagination
-    data={dishOnFilter(filter)}
-    classes="w-full flex justify-center"
-    {page}
-    {pageSize}
-    onPageChange={(e) => (page = e.page)}
-    alternative
-  />
+  <nav
+    class="mt-6 flex items-center justify-center gap-2"
+    aria-label="Pagination"
+  >
+    <button
+      type="button"
+      class="page-btn"
+      onclick={() => goToPage(page - 1)}
+      disabled={page === 1}
+    >
+      Prev
+    </button>
+    {#each pageNumbers as currentPage}
+      <button
+        type="button"
+        class="page-btn {currentPage === page ? 'is-current' : ''}"
+        onclick={() => goToPage(currentPage)}
+      >
+        {currentPage}
+      </button>
+    {/each}
+    <button
+      type="button"
+      class="page-btn"
+      onclick={() => goToPage(page + 1)}
+      disabled={page === totalPages}
+    >
+      Next
+    </button>
+  </nav>
 </div>
